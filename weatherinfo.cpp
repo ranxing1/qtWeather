@@ -3,6 +3,11 @@
 class WeatherDetail::Private{
 public:
     Private(){}
+    ~Private()
+    {
+        delete pix;
+        pix = 0;
+    }
     QString desc;
     QString icon;
     QPixmap *pix;

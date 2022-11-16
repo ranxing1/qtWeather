@@ -39,37 +39,37 @@ int WeatherCaretaker::size()
 
 
 
-PixCaretaker::PixCaretaker()
-{
-    this->mementoList = new QLinkedList<QPixmap*>;
-}
+//PixCaretaker::PixCaretaker()
+//{
+//    this->mementoList = new QLinkedList<QPixmap*>;
+//}
 
-PixCaretaker::~PixCaretaker()
-{
-    for(auto i = mementoList->begin();i != mementoList->end();++i)
-    {
-        delete *i;
-    }
-    delete mementoList;
-}
+//PixCaretaker::~PixCaretaker()
+//{
+//    for(auto i = mementoList->begin();i != mementoList->end();++i)
+//    {
+//        delete *i;
+//    }
+//    delete mementoList;
+//}
 
-void PixCaretaker::addMemento(QPixmap *memento)
-{
-    if(mementoList->size() >= 5)
-    {
-        QPixmap* tmp = mementoList->front();
-        mementoList->pop_front();
-        delete tmp;
-    }
-    mementoList->append(memento);
-}
+//void PixCaretaker::addMemento(QPixmap *memento)
+//{
+//    if(mementoList->size() >= 5)
+//    {
+//        QPixmap* tmp = mementoList->front();
+//        mementoList->pop_front();
+//        delete tmp;
+//    }
+//    mementoList->append(memento);
+//}
 
-QPixmap* PixCaretaker::getMemento(int i)
-{
-    return *(mementoList->begin() + i);
-}
+//QPixmap* PixCaretaker::getMemento(int i)
+//{
+//    return *(mementoList->begin() + i);
+//}
 
-int PixCaretaker::size()
-{
-    return mementoList->size();
-}
+//int PixCaretaker::size()
+//{
+//    return mementoList->size();
+//}

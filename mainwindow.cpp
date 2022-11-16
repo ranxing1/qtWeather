@@ -25,7 +25,7 @@ public:
         QNetworkReply *reply = netWorker->get(QString("http://api.openweathermap.org/data/2.5/weather"
                                "?q=%1&exclude=hourly,daily&lang=zh_cn"
                                "&appid=822c0d4500e71fa73485273f48708df0").arg(cityName));
-        replyMap.insert(reply,FetchWeatherInfo);
+//        replyMap.insert(reply,FetchWeatherInfo);
 
     }
 
@@ -34,7 +34,7 @@ public:
         //http://openweathermap.org/img/wn/10d.png
 //        qDebug() << QString("http://openweathermap.org/img/wn/%1.png").arg(iconName);
         QNetworkReply *reply = netWorker->get(QString("http://openweathermap.org/img/wn/%1.png").arg(iconName));
-        replyMap.insert(reply, FetchWeatherIcon);
+//        replyMap.insert(reply, FetchWeatherIcon);
         //qDebug() << replyMap.value(reply);
     }
 
@@ -42,7 +42,7 @@ public:
 
     NetWorker *netWorker;
     MainWindow *mainWindow;
-    QMap<QNetworkReply*,RemoteRequest> replyMap;
+//    QMap<QNetworkReply*,RemoteRequest> replyMap;
 };
 
 
@@ -51,8 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
     , index(0)
     , ui(new Ui::MainWindow)
     , careTaker(new WeatherCaretaker)
-    , pixCareTaker(new PixCaretaker)
+    //, pixCareTaker(new PixCaretaker)
     , d(new MainWindow::Private(this))
+    , request(FetchWeatherInfo)
 {
     ui->setupUi(this);
     setWindowTitle(tr("Weather"));
@@ -64,13 +65,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->cityList->addItem(tr("Taiyuan"),QLatin1String("Taiyuan,cn"));
     ui->cityList->addItem(tr("Yuncheng"),QLatin1String("Yuncheng,cn"));
     ui->cityList->addItem(tr("Harbin"),QLatin1String("Harbin,cn"));
+    ui->cityList->addItem(tr("Xian"),QLatin1String("Xian,cn"));
 
-    int x = 1;
     //解析json数据
     connect(d->netWorker,&NetWorker::finished,[=](QNetworkReply *reply) mutable {
-        RemoteRequest request = d->replyMap.value(reply);
-        if(x % 2 == 0)
-            request = FetchWeatherIcon;
         switch (request)
         {
         case FetchWeatherInfo:
@@ -113,6 +111,7 @@ MainWindow::MainWindow(QWidget *parent)
                     //添加至备忘录
                     careTaker->addMemento(weather);
                     index = careTaker->size() - 1;
+                    request = FetchWeatherIcon;
                     //显示信息
                     showWeather(index);
                 }
@@ -130,13 +129,13 @@ MainWindow::MainWindow(QWidget *parent)
             QPixmap *pixmap = new QPixmap;
             pixmap->loadFromData(arr);
 
-            pixCareTaker->addMemento(pixmap);
+            careTaker->getMemento(index)->details().at(0)->setPix(pixmap);
+            request = FetchWeatherInfo;
             showPix(index);
             break;
         }
         }
         reply->deleteLater();
-        x++;
     });
     connect(ui->refresh,&QPushButton::clicked,[=](){
        d->fetchWeather(ui->cityList->itemData(ui->cityList->currentIndex()).toString());
@@ -192,7 +191,7 @@ void MainWindow::showWeather(int i)
 
 void MainWindow::showPix(int i)
 {
-    QPixmap map = *(pixCareTaker->getMemento(i));
+    QPixmap map = *(careTaker->getMemento(i)->details().at(0)->pix());
     map = map.scaled(ui->curDescPix->size());
     ui->curDescPix->setPixmap(map);
 }

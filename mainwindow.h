@@ -30,7 +30,9 @@ private:
     Ui::MainWindow *ui;
 
     WeatherCaretaker *careTaker;
-    PixCaretaker *pixCareTaker;
+    //PixCaretaker *pixCareTaker;
+
+    RemoteRequest request;
 
     class Private;
     friend class Private;

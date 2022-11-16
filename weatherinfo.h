@@ -4,6 +4,7 @@
 #include <QString>
 #include <QDateTime>
 #include <QDebug>
+#include <QPixmap>
 
 class WeatherDetail{
 public:
@@ -15,6 +16,9 @@ public:
 
     QString icon() const;
     void setIcon(const QString &icon);
+
+    QPixmap* pix() const;
+    void setPix(QPixmap *pix);
 
 private:
     class Private;

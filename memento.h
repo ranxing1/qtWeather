@@ -17,17 +17,17 @@ private:
     QLinkedList<WeatherInfo*> *mementoList;
 };
 
-class PixCaretaker{
-public:
-    PixCaretaker();
-    ~PixCaretaker();
-    void addMemento(QPixmap *memento);
-    QPixmap* getMemento(int i);
-    int size();
+//class PixCaretaker{
+//public:
+//    PixCaretaker();
+//    ~PixCaretaker();
+//    void addMemento(QPixmap *memento);
+//    QPixmap* getMemento(int i);
+//    int size();
 
-private:
-    QLinkedList<QPixmap*> *mementoList;
-};
+//private:
+//    QLinkedList<QPixmap*> *mementoList;
+//};
 
 
 #endif // MEMENTO_H

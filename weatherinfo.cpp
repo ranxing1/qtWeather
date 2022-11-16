@@ -5,6 +5,7 @@ public:
     Private(){}
     QString desc;
     QString icon;
+    QPixmap *pix;
 };
 
 WeatherDetail::WeatherDetail() : d(new WeatherDetail::Private)
@@ -34,6 +35,16 @@ QString WeatherDetail::icon() const
 void WeatherDetail::setIcon(const QString &icon)
 {
     d->icon = icon;
+}
+
+QPixmap* WeatherDetail::pix() const
+{
+    return d->pix;
+}
+
+void WeatherDetail::setPix(QPixmap *pix)
+{
+    d->pix = pix;
 }
 
 class WeatherInfo::Private{
